@@ -19,6 +19,7 @@ https://leetcode.com/problems/binary-tree-zigzag-level-order-traversal/
  *     }
  * }
  */
+
 class Solution {
     public List<List<Integer>> zigzagLevelOrder(TreeNode root) {
         List<List<Integer>> result = new ArrayList<>();
