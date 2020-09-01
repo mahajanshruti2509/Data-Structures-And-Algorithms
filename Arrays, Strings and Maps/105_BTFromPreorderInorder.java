@@ -1,0 +1,59 @@
+
+/***********************************************
+Time Complexity : O(n)
+Space Complexity : O(n)
+https://leetcode.com/problems/construct-binary-tree-from-preorder-and-inorder-traversal/
+https://www.youtube.com/watch?v=W9irlUOf6lI
+***********************************************/
+
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+class Solution {
+
+    public TreeNode buildTree(int[] preorder, int[] inorder) {
+        Map<Integer, Integer> inMap = new HashMap<Integer, Integer>();
+        for(int i = 0; i < inorder.length; i++) {
+            inMap.put(inorder[i], i);
+        }
+        TreeNode root = buildTree(preorder, 0, preorder.length - 1, inorder, 0, inorder.length - 1, inMap);
+        return root;
+    }
+
+    public TreeNode buildTree(int[] preorder, int preStart, int preEnd, int[] inorder, int inStart, int inEnd, Map<Integer, Integer> inMap) {
+        if(preStart > preEnd || inStart > inEnd) {
+            return null;
+        }
+
+        TreeNode root = new TreeNode(preorder[preStart]);
+        int inRoot = inMap.get(root.val);
+        
+        int leftInStart = inStart;
+        int leftInEnd = inRoot - 1;
+        int leftPreStart = preStart + 1;
+        int leftPreEnd = leftInEnd - leftInStart + leftPreStart;
+        
+        
+        int rightInStart = inRoot + 1;
+        int rightInEnd = inEnd;
+        int rightPreStart = leftPreEnd + 1;
+        int rightPreEnd = preEnd;
+        
+
+        root.left = buildTree(preorder, leftPreStart, leftPreEnd, inorder, inStart, leftInEnd, inMap);
+        root.right = buildTree(preorder, rightPreStart, rightPreEnd, inorder, rightInStart, inEnd, inMap);
+        return root;
+    }
+}
