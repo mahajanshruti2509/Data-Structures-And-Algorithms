@@ -2,7 +2,7 @@
 Time Complexity : O(log n)
 Space Complexity : O(log n)
 https://leetcode.com/problems/powx-n/
-https://www.youtube.com/watch?v=snOaKR2xgZg
+https://www.youtube.com/watch?v=wAyrtLAeWvI
 ***********************************************/
 
 class Solution {
