@@ -11,12 +11,14 @@ class Solution {
         Arrays.sort(nums);
         
         for(int i = 0; i < nums.length; i++) {
-            int start = i + 1;
-            int end = nums.length - 1;
+            
             if(i > 0 && nums[i] == nums[i - 1]) {
                 // ignores duplicates elements at the starting position
                 continue;
             }
+
+            int start = i + 1;
+            int end = nums.length - 1;
             
             while(start < end) {
                 if(end < nums.length - 1 && nums[end] == nums[end+1]) {
