@@ -1,39 +1,49 @@
 /***********************************************
-Let n be the number of logs in the list and m be the maximum length of a single log.
-Time Complexity : O(m n log n)
-Space Complexity : O(m log n)
+Let n be the number of logs in the list.
+Time Complexity : O(n log n)
+Space Complexity : O(n log n)
 https://leetcode.com/problems/reorder-data-in-log-files/
 ***********************************************/
 
 class Solution {
     public String[] reorderLogFiles(String[] logs) {
-        Arrays.sort(logs, (log1, log2) -> {
-            String[] log1Split = log1.split(" ", 2);
-            String[] log2Split = log2.split(" ", 2);
+        
+        Comparator<String> myComp = new Comparator<String>() {
             
-            boolean isLog1DigitLog = Character.isDigit(log1Split[1].charAt(0));
-            boolean isLog2DigitLog = Character.isDigit(log2Split[1].charAt(0));
-            
-            if(!isLog1DigitLog && !isLog2DigitLog) { // both letter logs
-                int comparison = log1Split[1].compareTo(log2Split[1]);
-                if(comparison == 0) {
-                    // contents of both letter logs are same. So compare the identfiers
-                    return log1Split[0].compareTo(log2Split[0]);
+            @Override
+            public int compare(String log1, String log2) {
+                // Split each log into 2 parts: <identifier, content>
+                String[] split1 = log1.split(" ", 2);
+                String[] split2 = log2.split(" ", 2);
+                
+                boolean isDigit1 = Character.isDigit(split1[1].charAt(0));
+                boolean isDigit2 = Character.isDigit(split2[1].charAt(0));
+                
+                // Case 1) Both logs are letter-logs
+                if(!isDigit1 && !isDigit2) {
+                    // First compare the content
+                    int comp = split1[1].compareTo(split2[1]);
+                    if(comp != 0) {
+                        return comp; // Content is not same
+                    }
+                    // Same content, hence compare the identifiers
+                    return split1[0].compareTo(split2[0]);
                 }
-                return comparison;
-            }
-            
-            if(isLog1DigitLog) {
-                if(isLog2DigitLog) {
-                    return 0; // Treat both digit logs as equal
+                
+                // Case 2) One of the logs is digit logs
+                if(!isDigit1 && isDigit2) {
+                    // Letter log comes first
+                    return -1;
+                } else if (isDigit1 && !isDigit2) {
+                    return 1;
+                } else {
+                    // Case 3) Both are digit logs
+                    return 0;
                 }
-                return 1; // log2 is letter log. 
-            } else {
-                // log1 is letter and log2 is digit
-                return -1;
             }
-            
-        });
+        };
+        
+        Arrays.sort(logs, myComp);
         return logs;
     }
 }
