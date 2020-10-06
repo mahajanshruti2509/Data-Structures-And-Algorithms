@@ -6,6 +6,7 @@ https://leetcode.com/problems/container-with-most-water/
 
 class Solution {
     public int maxArea(int[] height) {
+        // Two pointer technique
         int maxArea = Integer.MIN_VALUE;
         int left = 0;
         int right = height.length - 1;
